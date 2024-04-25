@@ -1,0 +1,51 @@
+body{
+direction: rtl;
+/*background:linear-gradient(45deg , green  ,rgb(123, 235, 173) ) ;*/
+background-image: url(images2/bcc\ pic.jpg);
+background-size: cover;
+}
+
+#first {
+color: aliceblue;
+font-size :80px;
+text-align: center;
+}
+#city-name{
+color: aliceblue;
+font-size: 70px;
+}
+select{
+    color: white ;
+    width: 300px;
+    height: 35px;
+    font-size: 20px;
+    background: none;
+    padding: 5px;
+    border-radius: 20px;
+    margin-bottom: 20px ;
+}
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 0px;
+}
+#times {
+   background-color: white;
+    font-size:20px;
+  width: 50%;
+    }
+
+
+#time td {
+    border: 0px solid #ddd;
+    padding: 8px;
+    width: 300px;
+}
+#time tr:nth-child(even){
+    background-color: rgb(60, 136, 94);}
+
+#time tr:hover {background-color: grey;}
+h2,h4{
+    margin: 0px;
+    color: white ;
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>timeprayer</title>
+    <link rel="stylesheet" href="time.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+
+         <div id=container>
+         <div>
+        <h1 id ="first"> مواعيد الصلاة </h1>
+        <!-- select city -->
+        <div class="center"> 
+            <select id="cities-select"> 
+            
+            </select>
+            <!-- // select city -->
+                    </div>
+                    
+        <h2 id="city-name" >  عمان  </h2>
+        <h4 id="date">الجمعة 24 نوفمبر </h4>
+        <hr>  
+          </div>
+         <div id="times">
+<table id="time">
+    <tr>
+        <td>الفجر</td>
+        <td id="fajr-time"> 4:30 </td>
+      </tr>
+      <tr>
+        <td>الشروق</td>
+        <td id="sunrise-time"></td>
+      </tr>
+      <tr>
+        <td>الظهر</td>
+        <td id="dhurh-time"></td>
+      </tr>
+      <tr>
+        <td>العصر</td>
+        <td id="asr-time"></td>
+      </tr>
+      <tr>
+        <td>المغرب</td>
+        <td id="sunset-time"></td>
+      </tr>
+      <tr>
+        <td >العشاء</td>
+        <td id="isha-time"></td>
+      </tr>
+
+</table>
+
+         </div>
+                        </div>
+                        <script src="./node_modules/axios/dist/axios.min.js"> </script>
+
+
+                        
+ <script >
+
+          let cities  =[
+{
+arabicname : "عمان ",
+name:"Amman" 
+},
+{
+arabicname : "البلقاء",
+name:"Balqa" 
+},
+{
+arabicname : "الكرك ",
+name:"Al Karak" 
+},
+{
+arabicname : "المفرق ",
+name:"Al Mafraq	" 
+},
+{
+arabicname : "العقبة  ",
+name:"Al ‘Aqabah" 
+},
+{
+arabicname : "المفرق ",
+name:"Al Mafraq	" 
+},
+{
+arabicname : "الزرقاء ",
+name:"Zarqa" 
+},
+{
+arabicname : "الطفيلة ",
+name:"Aţ Ţafīlah	" 
+},
+{
+arabicname : "اربد ",
+name:"Irbid" 
+},
+{
+arabicname : "جرش ",
+name:"Jarash" 
+},
+{
+arabicname : "معان ",
+name:"Ma‘ān" 
+},
+{
+arabicname : "مادبا",
+name:"Mādabā" 
+},
+{
+arabicname : "عجلون ",
+name:"Ajlūn" 
+}
+
+
+          ]
+          for (let city of cities){
+            const content =`
+            <option style="background : rgb(60, 136, 94); "> ${city.arabicname} </option>
+            `
+            document.getElementById("cities-select").innerHTML += content ;
+          }
+
+           document.getElementById("cities-select").addEventListener("change",function () {
+         document.getElementById("city-name").innerHTML = this.value ;
+         
+          let cityname= "";
+          for (city of cities ){
+            if (city.arabicname == this.value){
+          cityname = city.name ;
+          }
+          }
+           getprayertimingofcity(cityname);
+           })
+function getprayertimingofcity(cityname){
+  let params = {
+            country :"JO",
+            city : cityname
+
+            }
+          axios.get('http://api.aladhan.com/v1/timingsByCity', {
+           params: params
+               })
+        .then(function (response) {
+          const timings = response.data.data.timings;
+          filltime("fajr-time", timings.Fajr);
+          filltime("sunrise-time", timings.Sunrise);
+          filltime("dhurh-time", timings.Dhuhr);
+          filltime("asr-time", timings.Asr);
+          filltime("sunset-time", timings.Sunset);
+          filltime("isha-time", timings.Isha);
+           
+           const readabledate= response.data.data.date.readable;
+           const weekDay= response.data.data.date.hijri.weekday.ar;
+          const date = weekDay  +" "+ readabledate;
+          document.getElementById("date").innerHTML=date ;
+      
+      
+       // document.getElementById("fajr-time").innerHTML= timings.Fajr;
+        console.log( weekDay  +" "+ readabledate);
+          })
+        .catch(function (error) {
+         console.log(error);
+              })
+          .finally(function () {
+            // always executed
+           });  
+
+}
+            getprayertimingofcity("Al ‘A̅şimah");
+function filltime(id,time){
+document.getElementById(id).innerHTML=time ;
+
+}
+            </script>
+
+        </body>
+        </html>
